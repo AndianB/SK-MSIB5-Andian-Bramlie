@@ -5,9 +5,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Page</title>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Java Script validasi, form yang kosong -->
+    <script src="jquery-validation/jquery.validate.min.js"></script>
+    <script>
+        $(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    form.submit();
+                }
+            });
+            $('#form-add').validate({
+                rules: {
+                    title: {
+                        required: true,
+                    },
+                    fileToUpload: {
+                        required: true,
+                    },
+                    trailer: {
+                        required: true
+                    },
+                    synopsis: {
+                        required: true
+                    },
+                    release_date: {
+                        required: true
+                    },
+                    genre: {
+                        required: true
+                    },
+                    rating: {
+                        required: true
+                    },
+                },
+                messages: {
+                    title: {
+                        required: "Please enter a valid title",
+                    },
+                    fileToUpload: {
+                        required: "Please choose a valid file poster",
+                    },
+                    trailer: {
+                        required: true
+                    },
+                    synopsis: {
+                        required: "Please enter a valid synopsis"
+                    },
+                    release_date: {
+                        required: "Please insert a valid release date"
+                    },
+                    genre: {
+                        required: "Please insert s genre"
+                    },
+                    rating: {
+                        required: "Please enter a valid rating"
+                    },
+                },
+                errorElement: 'span',
+                errorPlacement: function (error, element) {
+                    error.addClass('invalid-feedback');
+                    element.closest('.form-group').append(error);
+                },
+                highlight: function (element, errorClass, validClass) {
+                    $(element).addClass('is-invalid');
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).removeClass('is-invalid');
+                }
+            });
+        });
 
+
+        function displayFileName(input) {
+            var label = document.querySelector('.custom-file-label');
+            label.textContent = input.files[0].name;
+        }
+    </script>
 </head>
 
 <body>
@@ -39,7 +114,7 @@
                 <center>
                     <h1>Add Movie</h1>
                 </center>
-                <form class="row g-3" action="proses_tambah.php" method="post" enctype="multipart/form-data">
+                <form class="row g-3" action="proses_tambah.php" novalidate="novalidate"  method="post" enctype="multipart/form-data">
                     <div class="col-md-12">
                         <label for="movieTitle" class="form-label">Title</label>
                         <input type="text" class="form-control" name="title">
@@ -76,15 +151,17 @@
                         <label for="movieRating" class="form-label">Rating</label>
                         <input type="text" class="form-control" name="rating">
                     </div>
-    
+
                     <div class="col-12">
-                        <button type="submit" class="btn btn-primary" name="Submit" value="Simpan">Add</button>
+                        <input type="submit" id="submitBtn" class="btn btn-primary" name="Submit" value="Add" >
                     </div>
                 </form>
             </div>
         </div>
     </div>
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+    
+
 </body>
 
 </html>
